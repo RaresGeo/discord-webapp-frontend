@@ -1,26 +1,49 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Dashboard from "./components/Dashboard";
+import Home from "./components/Home";
+import Login from "./components/Login";
+import Navbar from "./components/Navbar";
+import { useAppSelector, useAppDispatch } from "./hooks";
+import actions from "./actions/";
 
-function App() {
+const App: React.FC = () => {
+  const user = useAppSelector((state) => state.user);
+  const dispatch = useAppDispatch();
+  const apiUrl = "http://localhost:3001";
+
+  useEffect(() => {
+    const asyncFetch = async () => {
+      const requestOptions = {
+        method: "POST",
+        credentials: "include" as RequestCredentials,
+        mode: "cors" as RequestMode,
+      };
+
+      let response = await fetch(`${apiUrl}/login`, requestOptions);
+      let data = await response.json();
+      return data;
+    };
+
+    if (!user.loggedIn && user.loggingIn)
+      asyncFetch().then((data) => {
+        if (data.id) {
+          let { id, username, avatar, discriminator } = data;
+          dispatch(actions.userActions.login({ id, username, avatar, discriminator }));
+        } else dispatch(actions.userActions.failedLogin());
+      });
+  }, []);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Navbar></Navbar>
+
+      <Routes>
+        <Route path="/" element={<Home />}></Route>
+        <Route path="login" element={<Login />}></Route>
+        <Route path="dashboard" element={<Dashboard />}></Route>
+      </Routes>
+    </Router>
   );
-}
+};
 
 export default App;

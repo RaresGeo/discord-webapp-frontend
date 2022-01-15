@@ -1,3 +1,12 @@
+:root {
+  --rifle-green: #4b5043ff;
+  --opal: #9bc4bcff;
+  --aero-blue: #d3ffe9ff;
+  --sky-blue-crayola: #8ddbe0ff;
+  --rich-black: #090909ff;
+  --light-black: #161316;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -5,9 +14,9 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #131516;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
