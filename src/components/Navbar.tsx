@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 import actions from "../actions/";
 import { useAppSelector, useAppDispatch } from "../hooks";
@@ -26,32 +26,36 @@ const Navbar: React.FC = () => {
     dispatch(actions.userActions.logout());
   };
 
-  const navigationStyles = "flex items-center h-full px-1 sm:px-3 lg:px-5 hover:bg-gray-500 text-gray-300 font-semibold text-lg";
+  const navStyles = "flex items-center h-full px-1 sm:px-3 lg:px-5 hover:bg-gray-500 text-gray-300 font-semibold text-lg";
+
+  const getNavStyles = (isActive: boolean) => {
+    return [isActive ? "bg-gray-500" : undefined, navStyles].join(" ");
+  };
 
   const username = (
-    <Link className={navigationStyles} to="/">
-      <span>{`${user.username}#${user.discriminator}`} </span>
+    <NavLink className={({ isActive }) => getNavStyles(isActive)} to="/">
+      {`${user.username}#${user.discriminator}`}
       <img className="h-full rounded-full p-1 ml-1 sm:ml-2 lg:ml-3" src={`https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.webp`} alt="avatar" />
-    </Link>
+    </NavLink>
   ); // I need to make some sort of user profile component here
   const login = (
-    <a className={navigationStyles} href={endpoint}>
+    <a className={navStyles} href={endpoint}>
       Login
     </a>
   );
   const logout = (
-    <Link className={navigationStyles} to="/" onClick={onLogout}>
-      <span>Logout</span>
-    </Link>
+    <NavLink className={navStyles} to="/" onClick={onLogout}>
+      Logout
+    </NavLink>
   );
 
   return (
-    <nav className="bg-gray-800">
+    <nav className="bg-gray-800 z-50">
       <div className="mx-auto px-2 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          <Link className={navigationStyles} to="/dashboard">
-            <span>Dashboard</span>
-          </Link>
+          <NavLink className={({ isActive }) => getNavStyles(isActive)} to="/dashboard">
+            Dashboard
+          </NavLink>
 
           <div className="flex items-center justify-center h-full">
             {user.loggedIn ? username : login}

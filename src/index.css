@@ -1,3 +1,7 @@
+#root {
+  height: 100vh;
+}
+
 :root {
   --rifle-green: #4b5043ff;
   --opal: #9bc4bcff;
@@ -15,6 +19,26 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #131516;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 13px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: rgb(55, 65, 81); 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgb(31, 41, 55); 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(17, 24, 39); 
 }
 
 @tailwind base;
