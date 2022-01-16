@@ -6,11 +6,14 @@ import { useAppSelector, useAppDispatch } from "../hooks";
 
 import "../index.css";
 
-const Navbar: React.FC = () => {
+interface IProps {
+  apiUrl: string;
+}
+
+const Navbar: React.FC<IProps> = ({ apiUrl }) => {
   const user = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
 
-  const apiUrl = "http://localhost:3001";
   const encodeEnpoint = () => {
     // Might want to encode this later so I made it into a function, but for now it just returns a string
     return "https://discord.com/api/oauth2/authorize?client_id=684391080925462609&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Flogin&response_type=code&scope=identify%20guilds";

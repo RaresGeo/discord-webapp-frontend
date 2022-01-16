@@ -4,12 +4,15 @@ import actions from "../actions/";
 import { useAppDispatch } from "../hooks";
 import "../index.css";
 
-const Login: React.FC = () => {
+interface IProps {
+  apiUrl: string;
+}
+
+const Login: React.FC<IProps> = ({ apiUrl }) => {
   const dispatch = useAppDispatch();
-  const [errorMessage, setErrorMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const navigate = useNavigate();
-  const apiUrl = "http://localhost:3001";
 
   useEffect(() => {
     const asyncFetch = async () => {
@@ -29,6 +32,7 @@ const Login: React.FC = () => {
         mode: "cors" as RequestMode,
         body: JSON.stringify({
           code,
+          redirect_uri: url.substring(0, url.indexOf(searchTerm))
         }),
       };
 
@@ -43,7 +47,7 @@ const Login: React.FC = () => {
         let { id, username, avatar, discriminator } = data;
         dispatch(actions.userActions.login({ id, username, avatar, discriminator }));
       } else {
-        navigate("/")
+        navigate("/");
       }
     });
   }, []);

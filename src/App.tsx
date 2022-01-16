@@ -13,7 +13,7 @@ import Balance from "./components/Balance";
 const App: React.FC = () => {
   const user = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
-  const apiUrl = "http://localhost:3001";
+  const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:3001";
 
   useEffect(() => {
     const asyncFetch = async () => {
@@ -39,12 +39,12 @@ const App: React.FC = () => {
   }, []);
   return (
     <Router>
-      <Navbar></Navbar>
+      <Navbar apiUrl={apiUrl}></Navbar>
 
       <Routes>
         <Route path="/" element={<Home />}></Route>
-        <Route path="login" element={<Login />}></Route>
-        <Route path="dashboard" element={<Dashboard />}>
+        <Route path="login" element={<Login apiUrl={apiUrl} />}></Route>
+        <Route path="dashboard" element={<Dashboard apiUrl={apiUrl} />}>
           <Route path="leaderboard" element={<Leaderboard apiUrl={apiUrl} />} />
           <Route path="config" element={<Config apiUrl={apiUrl} />} />
           <Route path="balance" element={<Balance apiUrl={apiUrl} />} />

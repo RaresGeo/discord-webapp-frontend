@@ -5,7 +5,11 @@ import useWebSocket, { ReadyState } from "react-use-websocket";
 import { NavLink } from "react-router-dom";
 import { IGuild } from "../interfaces";
 
-const Dashboard: React.FC = () => {
+interface IProps {
+  apiUrl: string;
+}
+
+const Dashboard: React.FC<IProps> = ({ apiUrl }) => {
   const user = useAppSelector((state) => state.user);
   const [guilds, setGuilds] = useState<IGuild[] | null>(null);
   const [selectedGuild, setSelectedGuild] = useState<IGuild | null>(null);
@@ -13,8 +17,6 @@ const Dashboard: React.FC = () => {
   const goToHome = () => {
     navigate("/");
   };
-
-  const apiUrl = "http://localhost:3001";
 
   useEffect(() => {
     if (!user.loggedIn && !user.loggingIn) goToHome();
