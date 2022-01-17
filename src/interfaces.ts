@@ -4,6 +4,8 @@ export interface IGuild {
   name: string;
   owner: boolean;
   permissions: string;
+  has_bot: boolean;
+  is_admin: boolean;
 }
 
 export interface IUser {

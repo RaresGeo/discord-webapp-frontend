@@ -50,8 +50,12 @@ const Dashboard: React.FC<IProps> = ({ apiUrl }) => {
   useEffect(() => {
     if (lastJsonMessage?.type === "getGuilds") {
       // Update state here with guild data
-      console.log("Received new leaderboard: ", lastJsonMessage);
+      console.log("Received new guilds: ", lastJsonMessage);
       setGuilds(lastJsonMessage.payload);
+
+      setTimeout(() => {
+        console.log(guilds);
+      }, 1000);
     }
   }, [lastJsonMessage]);
 
@@ -70,13 +74,23 @@ const Dashboard: React.FC<IProps> = ({ apiUrl }) => {
             return (
               <div
                 onClick={() => {
-                  setSelectedGuild(guild);
+                  if (guild.has_bot) setSelectedGuild(guild);
                 }}
                 key={index}
-                className={`hover:cursor-pointer bg-slate-600 hover:bg-slate-700 rounded-xl p-0 sm:p-2 m-2 sm:m-4 h-50 flex items-center justify-center mb-6 ${
-                  selectedGuild === guild && "bg-slate-700"
+                className={`relative rounded-xl p-0 sm:p-2 m-2 sm:m-4 h-50 flex items-center justify-center mb-6 ${selectedGuild === guild && "bg-slate-700"} ${
+                  !guild.has_bot ? "bg-zinc-700/50" : "hover:cursor-pointer bg-slate-500 hover:bg-slate-700"
                 }`}
               >
+                {!!(!guild.has_bot && guild.is_admin) && (
+                  <div className="absolute w-full h-full top-0 bottom-0 left-0 right-0 flex flex-col items-center justify-center">
+                    <a
+                      href={process.env.REACT_APP_BOT_INVITE + guild.id}
+                      className="bg-blue-500 text-white border-solid border-black border-0 hover:border-2 hover:bg-blue-400 p-3 rounded-md"
+                    >
+                      Invite bot
+                    </a>
+                  </div>
+                )}
                 <img className="w-16 rounded-xl" src={`https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.webp`} alt="icon" />
                 <span className="text-gray-300 pl-1 hidden sm:block sm:text-sm lg:text-base w-14 sm:w-32 lg:w-40 font-semibold text-center">{guild.name}</span>
               </div>

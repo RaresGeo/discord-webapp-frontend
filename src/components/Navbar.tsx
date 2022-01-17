@@ -14,12 +14,9 @@ const Navbar: React.FC<IProps> = ({ apiUrl }) => {
   const user = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
 
-  const encodeEnpoint = () => {
-    // Might want to encode this later so I made it into a function, but for now it just returns a string
-    return "https://discord.com/api/oauth2/authorize?client_id=684391080925462609&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Flogin&response_type=code&scope=identify%20guilds";
-  };
-
-  let endpoint = encodeEnpoint();
+  let endpoint =
+    process.env.REACT_APP_OAUTH_ENDPOINT ||
+    "https://discord.com/api/oauth2/authorize?client_id=684391080925462609&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Flogin&response_type=code&scope=identify%20guilds";
 
   const onLogout = async () => {
     let response = await fetch(`${apiUrl}/logout`, { method: "POST", credentials: "include" as RequestCredentials });
