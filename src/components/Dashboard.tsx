@@ -38,24 +38,29 @@ const Dashboard: React.FC<IProps> = ({ apiUrl }) => {
     [ReadyState.UNINSTANTIATED]: "Uninstantiated",
   }[readyState];
 
-  useEffect(() => {
+  const getGuilds = () => {
     const message = {
       type: "getGuilds",
       payload: {},
     };
 
     sendJsonMessage(message);
+  };
+
+  useEffect(() => {
+    getGuilds();
   }, []);
 
   useEffect(() => {
     if (lastJsonMessage?.type === "getGuilds") {
       // Update state here with guild data
-      console.log("Received new guilds: ", lastJsonMessage);
-      setGuilds(lastJsonMessage.payload);
-
-      setTimeout(() => {
-        console.log(guilds);
-      }, 1000);
+      const { payload } = lastJsonMessage;
+      console.log("Received new guilds: ", payload);
+      if (!payload.err) setGuilds(payload);
+      else
+        setTimeout(() => {
+          getGuilds();
+        }, 1000);
     }
   }, [lastJsonMessage]);
 
@@ -127,7 +132,7 @@ const Dashboard: React.FC<IProps> = ({ apiUrl }) => {
             </div>
           </div>
         </div>
-        <div style={{ maxHeight: "calc(100vh - 64px - 64px)" }} className="overflow-y-auto">
+        <div className="minus-128 overflow-y-auto">
           <Outlet context={selectedGuild} />
         </div>
       </div>

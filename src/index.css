@@ -13,12 +13,10 @@
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #131516;
+  background-color: rgb(15, 17, 17);
 }
 
 /* width */
@@ -28,17 +26,27 @@ body {
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: rgb(55, 65, 81); 
+  background: rgb(55, 65, 81);
 }
- 
+
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: rgb(31, 41, 55); 
+  background: rgb(31, 41, 55);
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: rgb(17, 24, 39); 
+  background: rgb(17, 24, 39);
+}
+
+/* Responsive design, or at least a poor attempt */
+@media (min-width: 640px) {
+  .minus-64 {
+    height: calc(100vh - 64px);
+  }
+  .minus-128 {
+    height: calc(100vh - 64px - 64px);
+  }
 }
 
 @tailwind base;
